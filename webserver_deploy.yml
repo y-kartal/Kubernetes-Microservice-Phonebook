@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phonebook-webserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phonebook-webserver
+  template:
+    metadata:
+      labels:
+        app: phonebook-webserver
+    spec:
+      containers:
+        - image: yasinkartal/web_server
+          name: phonebook-webserver
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config
+                  key: MYSQL_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config
+                  key: MYSQL_DATABASE_HOST
+          ports:
+            - containerPort: 80
+              name: pb-webserver
+          resources: {}
+
