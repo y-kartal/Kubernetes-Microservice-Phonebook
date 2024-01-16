@@ -11,4 +11,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/home/docker/pv-data"
+    #path: "/home/docker/pv-data"
+    path: "/ubuntu/docker/pv-data"
